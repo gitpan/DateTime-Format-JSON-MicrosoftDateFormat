@@ -1,0 +1,7 @@
+Revision history for Perl module DateTime::Format::JSON::MicrosoftDateFormat
+
+0.02 2014-02-17
+  - Updated import method to only import TO_JSON when requested
+
+0.01 2014-02-17
+  - original version; created by ExtUtils::ModuleMaker 0.51
