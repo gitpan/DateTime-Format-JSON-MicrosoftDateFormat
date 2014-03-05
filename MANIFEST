@@ -11,4 +11,7 @@ t/003_to_json_no_install.t
 t/004_parse_datetime.t
 t/005_format_datetime.t
 perl-DateTime-Format-JSON-MicrosoftDateFormat.spec
+scripts/format_datetime.pl
+scripts/parse_datetime.pl
+scripts/convert_blessed.pl
 META.yml                                 Module meta-data (added by MakeMaker)

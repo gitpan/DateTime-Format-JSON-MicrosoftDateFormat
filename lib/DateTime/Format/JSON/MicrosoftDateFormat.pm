@@ -3,12 +3,12 @@ use strict;
 use warnings;
 use DateTime;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME
 
-DateTime::Format::JSON::MicrosoftDateFormat - Parse and format JSON MicrosoftDateFormat datetime strings
+DateTime::Format::JSON::MicrosoftDateFormat - Parse and format JSON MicrosoftDateFormat strings
 
 =head1 SYNOPSIS
 
@@ -22,7 +22,7 @@ DateTime::Format::JSON::MicrosoftDateFormat - Parse and format JSON MicrosoftDat
 
 =head1 DESCRIPTION
 
-This module understands the JSON MicrosoftDateFormat date/time format.
+This module understands the JSON MicrosoftDateFormat date/time format. e.g. /Date(1392067678000)/
 
 =head1 USAGE
 
@@ -30,8 +30,19 @@ This module understands the JSON MicrosoftDateFormat date/time format.
 
 Installs the TO_JSON method into the DateTime namespace when requested
 
-  use DateTime::Format::JSON::MicrosoftDateFormat (to_json => 1);
-  use DateTime::Format::JSON::MicrosoftDateFormat; #not installed
+  use DateTime::Format::JSON::MicrosoftDateFormat (to_json => 1); #TO_JSON method installed in DateTime package
+  use DateTime::Format::JSON::MicrosoftDateFormat;                #TO_JSON method not installed by default
+
+Use the imported DateTime::TO_JSON method and the JSON->convert_blessed options to seamlessly convert DateTime objects to the JSON MicrosoftDateFormat for use in creating encoded JSON structures.
+
+  use JSON;
+  use DateTime;
+  use DateTime::Format::JSON::MicrosoftDateFormat (to_json=>1);
+  my $formatter=DateTime::Format::JSON::MicrosoftDateFormat->new;
+  my $json=JSON->new->convert_blessed->pretty;
+
+  my $dt=DateTime->now(formatter=>$formatter);
+  print $json->encode({now=>$dt}); #prints {"now" : "/Date(1392747671000)/"}
 
 =cut
 
@@ -59,6 +70,13 @@ sub new {
 
 =head2 parse_datetime
 
+Returns a DateTime object from the given string
+
+  use DateTime::Format::JSON::MicrosoftDateFormat;
+  my $parser=DateTime::Format::JSON::MicrosoftDateFormat->new;
+  my $dt=$parser->parse_datetime("/Date(1392606509000)/");
+  print "$dt\n";
+
 =cut
 
 sub parse_datetime {
@@ -67,7 +85,7 @@ sub parse_datetime {
   #/Date(1392089278000)/
   #/Date(1392089278000-0600)/
   #/Date(1392089278000+0600)/
-  $string =~ m{^/Date\(([+-]?\d+)(?:([+-])(\d\d)(\d\d))?\)/$} or die "Invalid JSON MicrosoftDateFormat datetime string ($string)";
+  $string =~ m{^/Date\(([+-]?\d+)(?:([+-])(\d\d)(\d\d))?\)/$} or die "Invalid JSON MicrosoftDateFormat string ($string)";
   my $milliseconds = $1; #[+-]\d+
   my $direction    = $2; #[+-]
   my $hh           = $3; #\d\d
@@ -82,7 +100,23 @@ sub parse_datetime {
 
 =head2 format_datetime
 
-Note: No support for offset in output as it is not supported very well in the Microsoft stack
+Returns a JSON formatted date string for the passed DateTime object
+
+  my $dt=DateTime->now;
+  my $formatter=DateTime::Format::JSON::MicrosoftDateFormat->new;
+  $formatter->format_datetime($dt);
+
+However, format_datetime is typically use like this...
+
+  use DateTime;
+  use DateTime::Format::JSON::MicrosoftDateFormat;
+  my $formatter=DateTime::Format::JSON::MicrosoftDateFormat->new;
+
+  my $dt=DateTime->now;
+  $dt->set_formatter($formatter);
+  print "$dt\n"; #prints /Date(1392747078000)/
+
+Note: The format_datetime method returns all dates as UTC and does does not support time zone offset in output as it is not well supported in the Microsoft stack e.g. /Date(1392747078000-0500)/
 
 =cut
 

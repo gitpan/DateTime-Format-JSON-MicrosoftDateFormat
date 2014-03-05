@@ -1,9 +1,9 @@
 use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME         => 'DateTime::Format::JSON::MicrosoftDateFormat',
-    VERSION_FROM => 'lib/DateTime/Format/JSON/MicrosoftDateFormat.pm', # finds \$VERSION
+    VERSION_FROM => 'lib/DateTime/Format/JSON/MicrosoftDateFormat.pm',
     AUTHOR       => 'Michael R. Davis (mdavis@stopllc.com)',
-    ABSTRACT     => 'Parse and format JSON MicrosoftDateFormat datetime strings',
+    ABSTRACT_FROM=> 'lib/DateTime/Format/JSON/MicrosoftDateFormat.pm',
     PREREQ_PM    => {
                      'Test::Simple' => 0.44,
                      'DateTime'     => 0,

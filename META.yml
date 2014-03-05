@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name:                DateTime-Format-JSON-MicrosoftDateFormat
-version:             0.02
-abstract:            Parse and format JSON MicrosoftDateFormat datetime strings
+version:             0.03
+abstract:            Parse and format JSON MicrosoftDateFormat strings
 license:             ~
 author:              
     - Michael R. Davis (mdavis@stopllc.com)

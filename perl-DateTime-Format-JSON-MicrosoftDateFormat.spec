@@ -1,8 +1,8 @@
 Name:           perl-DateTime-Format-JSON-MicrosoftDateFormat
-Version:        0.02
+Version:        0.03
 Release:        1%{?dist}
 Summary:        Parse and format JSON MicrosoftDateFormat datetime strings
-License:        Distributable, see LICENSE
+License:        gplv2
 Group:          Development/Libraries
 URL:            http://search.cpan.org/dist/DateTime-Format-JSON-MicrosoftDateFormat/
 Source0:        http://www.cpan.org/modules/by-module/DateTime/DateTime-Format-JSON-MicrosoftDateFormat-%{version}.tar.gz
